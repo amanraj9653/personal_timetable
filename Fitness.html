@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Secure Timetable</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #f1f5f9;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .login, .main {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+
+    .login input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    .login button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      border: none;
+      font-weight: bold;
+      font-size: 1rem;
+      background: #00f2fe;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .login button:hover {
+      background: #4facfe;
+    }
+
+    .error {
+      margin-top: 1rem;
+      color: #f87171;
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+
+    .days {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .day-btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .day-btn:hover, .day-btn.active {
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      color: #000;
+    }
+
+    .schedule {
+      display: none;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .schedule.active {
+      display: block;
+    }
+
+    .slot {
+      background: rgba(255, 255, 255, 0.08);
+      margin-bottom: 1rem;
+      padding: 1rem 1.25rem;
+      border-left: 5px solid #4facfe;
+      border-radius: 12px;
+    }
+
+    .time {
+      font-weight: bold;
+      color: #7dd3fc;
+    }
+
+    .task {
+      margin-top: 0.25rem;
+    }
+
+    .footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🔐 Login screen -->
+<div class="login" id="loginScreen">
+  <h2>🔐 Enter Password</h2>
+  <input type="password" id="passwordInput" placeholder="Enter password" />
+  <button onclick="checkPassword()">Unlock</button>
+  <div id="error" class="error"></div>
+</div>
+
+<!-- 🔓 Timetable content -->
+<div id="mainApp" class="main" style="display:none;">
+  <h1>📅 Aman’s Timetable</h1>
+
+  <div class="days">
+    <button class="day-btn active" onclick="showDay('mon')">Mon</button>
+    <button class="day-btn" onclick="showDay('tue')">Tue</button>
+    <button class="day-btn" onclick="showDay('wed')">Wed</button>
+    <button class="day-btn" onclick="showDay('thu')">Thu</button>
+    <button class="day-btn" onclick="showDay('fri')">Fri</button>
+    <button class="day-btn" onclick="showDay('sat')">Sat</button>
+    <button class="day-btn" onclick="showDay('sun')">Sun</button>
+  </div>
+
+  <div id="mon" class="schedule active">
+    <div class="slot"><div class="time">6:00 AM – 6:45 AM</div><div class="task">Project / Internship</div></div>
+    <div class="slot"><div class="time">5:00 PM – 6:00 PM</div><div class="task">Workout</div></div>
+    <div class="slot"><div class="time">9:00 PM – 10:00 PM</div><div class="task">Speaking Skills</div></div>
+    <div class="slot"><div class="time">10:00 PM – 11:30 PM</div><div class="task">GATE Study</div></div>
+  </div>
+
+  <div id="tue" class="schedule">
+    <div class="slot"><div class="time">6:00 AM – 6:45 AM</div><div class="task">Project / Internship</div></div>
+    <div class="slot"><div class="time">5:00 PM – 6:00 PM</div><div class="task">Workout</div></div>
+    <div class="slot"><div class="time">9:00 PM – 10:00 PM</div><div class="task">Speaking Skills</div></div>
+    <div class="slot"><div class="time">10:00 PM – 11:30 PM</div><div class="task">GATE Study</div></div>
+  </div>
+
+  <div id="wed" class="schedule">
+    <div class="slot"><div class="time">7:00 AM – 7:45 AM</div><div class="task">Project / Internship</div></div>
+    <div class="slot"><div class="time">4:00 PM – 5:00 PM</div><div class="task">Workout</div></div>
+    <div class="slot"><div class="time">3:00 PM – 4:00 PM</div><div class="task">Speaking Skills</div></div>
+    <div class="slot"><div class="time">2:00 PM – 3:00 PM</div><div class="task">Semester Work</div></div>
+    <div class="slot"><div class="time">9:00 PM – 11:00 PM</div><div class="task">GATE Study</div></div>
+  </div>
+
+  <div id="thu" class="schedule">
+    <div class="slot"><div class="time">4:00 PM – 5:00 PM</div><div class="task">Workout</div></div>
+    <div class="slot"><div class="time">3:00 PM – 4:00 PM</div><div class="task">Speaking Skills</div></div>
+    <div class="slot"><div class="time">2:00 PM – 3:00 PM</div><div class="task">Semester Work</div></div>
+    <div class="slot"><div class="time">9:00 PM – 11:00 PM</div><div class="task">GATE Study</div></div>
+  </div>
+
+  <div id="fri" class="schedule">
+    <div class="slot"><div class="time">7:00 AM – 7:45 AM</div><div class="task">Project / Internship</div></div>
+    <div class="slot"><div class="time">4:00 PM – 5:00 PM</div><div class="task">Workout</div></div>
+    <div class="slot"><div class="time">3:00 PM – 4:00 PM</div><div class="task">Speaking Skills</div></div>
+    <div class="slot"><div class="time">2:00 PM – 3:00 PM</div><div class="task">Semester Work</div></div>
+    <div class="slot"><div class="time">9:00 PM – 11:00 PM</div><div class="task">GATE Study</div></div>
+  </div>
+
+  <div id="sat" class="schedule">
+    <div class="slot"><div class="time">4:00 PM – 5:00 PM</div><div class="task">Workout</div></div>
+    <div class="slot"><div class="time">3:00 PM – 4:00 PM</div><div class="task">Speaking Skills</div></div>
+    <div class="slot"><div class="time">9:00 AM – 1:00 PM</div><div class="task">Semester Work</div></div>
+    <div class="slot"><div class="time">9:00 PM – 11:00 PM</div><div class="task">GATE Study</div></div>
+  </div>
+
+  <div id="sun" class="schedule">
+    <div class="slot"><div class="time">9:00 AM – 1:00 PM</div><div class="task">Semester Work</div></div>
+    <div class="slot"><div class="time">8:00 PM – 11:30 PM</div><div class="task">Entertainment</div></div>
+  </div>
+
+  <div class="footer">Made by Aman Kumar Raj • Secure & Private</div>
+</div>
+
+<script>
+  const correctPassword = 'aman123';
+
+  function checkPassword() {
+    const input = document.getElementById('passwordInput').value;
+    if (input === correctPassword) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+    } else {
+      document.getElementById('error').innerText = '❌ Incorrect password.';
+    }
+  }
+
+  function showDay(dayId) {
+    document.querySelectorAll('.schedule').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(dayId).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
